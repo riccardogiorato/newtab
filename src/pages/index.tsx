@@ -1,6 +1,5 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { useEffect, useState } from "react";
-const currentBackground = require("../background.json").background;
 
 function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -69,16 +68,15 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <div
         className="w-screen h-screen text-white bg-cover bg-black"
         style={{
-          backgroundImage:
-            "url(data:image/png;base64," + currentBackground + ")",
+          backgroundImage: "url(/img/beach.webp)",
         }}
       >
         <div className="container mx-auto">
           <div className="flex items-center h-screen">
-            <div className="text-center self-center mx-auto">
+            <div className="text-center self-center mx-auto text-shadow-layered">
               <p className="text-3xl opacity-50 leading-tight">{week}</p>
               <h1 className="text-9xl leading-tight">{time}</h1>
-              <h1 className=" text-6xl leading-tight">{day}</h1>
+              <h1 className=" text-5xl leading-tight">{day}</h1>
               {/* <p className="text-2xl leading-relaxed mt-8 font-semibold">
                 Now you should be {whatCurrentThing}.
               </p> */}
