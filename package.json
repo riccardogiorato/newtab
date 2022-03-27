@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"yarn:dev:*\"",
-    "dev:next": "next dev",
+    "dev:next": "vercel dev",
     "dev:tailwind": "npx tailwindcss -i src/styles/style.css -o src/styles/build.css --minify --watch",
     "build": "yarn build:tailwind && yarn build:next",
     "build:next": "next build",
@@ -20,9 +20,9 @@
   "devDependencies": {
     "@types/node": "17.0.21",
     "@types/react": "17.0.40",
+    "concurrently": "^7.0.0",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
-    "typescript": "4.6.2",
-    "concurrently": "^7.0.0"
+    "typescript": "4.6.2"
   }
 }
