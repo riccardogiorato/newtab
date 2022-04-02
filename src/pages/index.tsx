@@ -1,4 +1,5 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 function capitalize(s: string): string {
@@ -38,6 +39,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   serverDay,
   serverWeek,
 }) => {
+  const { data: session } = useSession();
   // const [whatCurrentThing, setCurrentThing] = useState(capitalize("sleeping"));
   /*
       if (hour >= 9 && hour < 13 && whatCurrentThing) {
@@ -80,6 +82,19 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               {/* <p className="text-2xl leading-relaxed mt-8 font-semibold">
                 Now you should be {whatCurrentThing}.
               </p> */}
+              {session ? (
+                <>
+                  Signed in as {session?.user?.email} <br />
+                </>
+              ) : (
+                <button
+                  onClick={() =>
+                    signIn("google", { callbackUrl: "http://localhost:3000/" })
+                  }
+                >
+                  Sign in
+                </button>
+              )}
             </div>
           </div>
         </div>
