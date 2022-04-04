@@ -1,5 +1,5 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { GoogleSignIn } from "../components/GoogleSignIn";
 
@@ -64,7 +64,9 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     setWeek(getWeek());
   }, []);
 
-  setInterval(() => setTime(getTime), 60 * 1000);
+  setInterval(() => setTime(getTime), 2 * 1000);
+
+  console.log(session);
 
   return (
     <div className="overflow-hidden w-screen h-screen">
@@ -83,22 +85,31 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               {/* <p className="text-2xl leading-relaxed mt-8 font-semibold">
                 Now you should be {whatCurrentThing}.
               </p> */}
-              {session ? (
-                <>
-                  Signed in as {session?.user?.email} <br />
-                </>
-              ) : status === "unauthenticated" ? (
-                <GoogleSignIn
-                  onClick={() =>
-                    signIn("google", { callbackUrl: "http://localhost:3000/" })
-                  }
-                />
-              ) : (
-                <div className="opacity-0">.</div>
-              )}
+              <span className="mt-4 h-12 flex">
+                {session ? (
+                  <>
+                    Signed in as {session?.user?.email} <br />
+                  </>
+                ) : status === "unauthenticated" ? (
+                  <GoogleSignIn
+                    onClick={() =>
+                      signIn("google", {
+                        callbackUrl: "http://localhost:3000/",
+                      })
+                    }
+                  />
+                ) : (
+                  <div className="opacity-0">.</div>
+                )}
+              </span>
             </div>
           </div>
         </div>
+        {session && status === "authenticated" && (
+          <button className="fixed bottom-2 w-full" onClick={() => signOut()}>
+            Sign Out
+          </button>
+        )}
       </div>
     </div>
   );

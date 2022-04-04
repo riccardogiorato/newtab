@@ -13,7 +13,7 @@ export const GoogleSignIn: React.FC<GoogleSignInProps> = ({
       style={{
         width: "240px",
       }}
-      className="mx-auto rounded-xl justify-center items-center text-white flex mt-4 font-medium bg-blue-500 hover:bg-blue-600"
+      className="mx-auto rounded-xl justify-center items-center text-white flex font-medium bg-blue-500 hover:bg-blue-600"
     >
       <span className="flex justify-center items-center ">
         <svg
