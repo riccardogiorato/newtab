@@ -1,6 +1,7 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { GoogleSignIn } from "../components/GoogleSignIn";
 
 function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -39,7 +40,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   serverDay,
   serverWeek,
 }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   // const [whatCurrentThing, setCurrentThing] = useState(capitalize("sleeping"));
   /*
       if (hour >= 9 && hour < 13 && whatCurrentThing) {
@@ -86,14 +87,14 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 <>
                   Signed in as {session?.user?.email} <br />
                 </>
-              ) : (
-                <button
+              ) : status === "unauthenticated" ? (
+                <GoogleSignIn
                   onClick={() =>
                     signIn("google", { callbackUrl: "http://localhost:3000/" })
                   }
-                >
-                  Sign in
-                </button>
+                />
+              ) : (
+                <div className="opacity-0">.</div>
               )}
             </div>
           </div>
