@@ -85,10 +85,18 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               {/* <p className="text-2xl leading-relaxed mt-8 font-semibold">
                 Now you should be {whatCurrentThing}.
               </p> */}
-              <span className="mt-4 h-12 flex">
+              <span className="mt-4 h-12 flex items-center">
                 {session ? (
                   <>
-                    Signed in as {session?.user?.email} <br />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      alt=""
+                      src={session?.user?.image || ""}
+                      className="h-12 w-12 rounded mr-4"
+                    />
+                    <p className="">
+                      Signed in as {session?.user?.email} <br />
+                    </p>
                   </>
                 ) : status === "unauthenticated" ? (
                   <GoogleSignIn
