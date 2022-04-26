@@ -35,6 +35,13 @@ function getWeek(): string {
   );
 }
 
+type GoogleEvent = {
+  summary: string;
+  start: { dateTime: string };
+  end: { dateTime: string };
+  hangoutLink: string;
+};
+
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   serverTime,
   serverDay,
@@ -66,7 +73,28 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   setInterval(() => setTime(getTime), 2 * 1000);
 
-  console.log(session);
+  const [events, setEvents] = useState<GoogleEvent[]>([]);
+
+  useEffect(() => {
+    const calendarList = async () => {
+      if (session?.user) {
+        const result = await fetch("/api/calendarlist");
+        const data = await result.json();
+        if (data.items) {
+          const primaryCalendar = data.items.find(
+            (calendar: { primary?: boolean }) => calendar.primary === true
+          );
+          const resultEvents = await fetch("/api/events/" + primaryCalendar.id);
+          const dataEvents = await resultEvents.json();
+          setEvents(dataEvents.items);
+        }
+      }
+    };
+    calendarList();
+  }, [session]);
+
+  const midnight = new Date();
+  midnight.setHours(24, 0, 0, 0);
 
   return (
     <div className="overflow-hidden w-screen h-screen">
@@ -110,6 +138,36 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                   <div className="opacity-0">.</div>
                 )}
               </span>
+              {events.length > 0 && (
+                <div className="flex flex-col">
+                  <ul className="mt-4">
+                    {events
+                      .filter(
+                        (event) =>
+                          new Date(event.start.dateTime) < midnight &&
+                          new Date(event.start.dateTime) > new Date()
+                      )
+                      .map((event: GoogleEvent) => (
+                        <li key={event.summary}>
+                          <a
+                            href={event.hangoutLink}
+                            className={
+                              event.hangoutLink && "underline font-bold text-xl"
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {event.summary} -
+                            {new Date(
+                              event.start.dateTime
+                            ).toLocaleTimeString()}{" "}
+                            -{new Date(event.end.dateTime).toLocaleTimeString()}
+                          </a>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>
