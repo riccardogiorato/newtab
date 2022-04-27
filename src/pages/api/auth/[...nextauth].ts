@@ -56,7 +56,9 @@ async function refreshAccessToken(refreshToken: string) {
         },
         data: {
           access_token: refreshedTokens.access_token,
-          expires_at: Date.now() + refreshedTokens.expires_in * 1000,
+          expires_at: Math.ceil(
+            new Date().getTime() / 1000 + refreshedTokens.expires_in
+          ),
         },
       });
     }
@@ -114,8 +116,8 @@ export default NextAuth({
           },
         },
       });
-
       const account = accounts?.accounts[0];
+
       if (
         account &&
         account?.expires_at &&

@@ -76,21 +76,14 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   const [events, setEvents] = useState<GoogleEvent[]>([]);
 
   useEffect(() => {
-    const calendarList = async () => {
+    const events = async () => {
       if (session?.user) {
-        const result = await fetch("/api/calendarlist");
-        const data = await result.json();
-        if (data.items) {
-          const primaryCalendar = data.items.find(
-            (calendar: { primary?: boolean }) => calendar.primary === true
-          );
-          const resultEvents = await fetch("/api/events/" + primaryCalendar.id);
-          const dataEvents = await resultEvents.json();
-          setEvents(dataEvents.items);
-        }
+        const resultEvents = await fetch("/api/events");
+        const dataEvents = await resultEvents.json();
+        setEvents(dataEvents.items);
       }
     };
-    calendarList();
+    events();
   }, [session]);
 
   const midnight = new Date();
