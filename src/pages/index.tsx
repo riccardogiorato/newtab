@@ -2,6 +2,7 @@ import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { signIn, useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { GoogleSignIn } from "../components/GoogleSignIn";
+import { getEventColor } from "../utils/calendarClient";
 
 function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -40,6 +41,7 @@ type GoogleEvent = {
   start: { dateTime: string };
   end: { dateTime: string };
   hangoutLink: string;
+  colorId: string;
 };
 
 const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
@@ -99,10 +101,16 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       >
         <div className="container mx-auto">
           <div className="flex items-center h-screen">
-            <div className="text-center self-center mx-auto text-shadow-layered">
-              <p className="text-3xl opacity-50 leading-tight">{week}</p>
-              <h1 className="text-9xl leading-tight">{time}</h1>
-              <h1 className=" text-5xl leading-tight">{day}</h1>
+            <div className="text-center self-center mx-auto">
+              <p className="text-3xl opacity-50 leading-tight text-shadow-layered">
+                {week}
+              </p>
+              <h1 className="text-9xl leading-tight text-shadow-layered">
+                {time}
+              </h1>
+              <h1 className=" text-5xl leading-tight text-shadow-layered">
+                {day}
+              </h1>
               {/* <p className="text-2xl leading-relaxed mt-8 font-semibold">
                 Now you should be {whatCurrentThing}.
               </p> */}
@@ -141,20 +149,29 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                           new Date(event.start.dateTime) > new Date()
                       )
                       .map((event: GoogleEvent) => (
-                        <li key={event.summary}>
+                        <li
+                          key={event.summary}
+                          style={{
+                            backgroundColor: getEventColor(event.colorId)
+                              .background,
+                            color: getEventColor(event.colorId).foreground,
+                          }}
+                          className="my-4 py-2 font-bold rounded"
+                        >
                           <a
                             href={event.hangoutLink}
                             className={
-                              event.hangoutLink && "underline font-bold text-xl"
+                              event.hangoutLink && "underline text-xl "
                             }
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            {event.summary} -
+                            {event.summary}{" "}
                             {new Date(
                               event.start.dateTime
-                            ).toLocaleTimeString()}{" "}
-                            -{new Date(event.end.dateTime).toLocaleTimeString()}
+                            ).toLocaleTimeString()}
+                            {" - "}
+                            {new Date(event.end.dateTime).toLocaleTimeString()}
                           </a>
                         </li>
                       ))}

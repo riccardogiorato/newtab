@@ -17,7 +17,7 @@ const getAccessTokenFromEmail = async (email: string) => {
 };
 
 export const getCalendarList = async ({ email }: { email: string }) => {
-  const access_token = getAccessTokenFromEmail(email);
+  const access_token = await getAccessTokenFromEmail(email);
 
   // fetch data from google apis
   const result = await fetch(
