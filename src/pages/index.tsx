@@ -114,7 +114,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               {/* <p className="text-2xl leading-relaxed mt-8 font-semibold">
                 Now you should be {whatCurrentThing}.
               </p> */}
-              <span className="mt-4 h-12 flex items-center">
+              <span className="mt-4 h-12 flex items-center justify-center">
                 {session ? (
                   <>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -156,7 +156,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                               .background,
                             color: getEventColor(event.colorId).foreground,
                           }}
-                          className="my-4 py-2 font-bold rounded"
+                          className="my-4 p-2 font-bold rounded"
                         >
                           <a
                             href={event.hangoutLink}
