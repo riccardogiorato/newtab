@@ -167,11 +167,15 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                             rel="noopener noreferrer"
                           >
                             {event.summary}{" "}
-                            {new Date(
-                              event.start.dateTime
-                            ).toLocaleTimeString()}
+                            {new Date(event.start.dateTime).toLocaleTimeString(
+                              [],
+                              { hour: "2-digit", minute: "2-digit" }
+                            )}
                             {" - "}
-                            {new Date(event.end.dateTime).toLocaleTimeString()}
+                            {new Date(event.end.dateTime).toLocaleTimeString(
+                              [],
+                              { hour: "2-digit", minute: "2-digit" }
+                            )}
                           </a>
                         </li>
                       ))}
