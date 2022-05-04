@@ -1,8 +1,12 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { signIn, useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { GoogleSignIn } from "../components/GoogleSignIn";
 import { getEventColor } from "../utils/calendarClient";
+
+const fetcher = (...args: any[]) =>
+  fetch([...args] as unknown as RequestInfo).then((res) => res.json());
 
 function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -77,16 +81,13 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   const [events, setEvents] = useState<GoogleEvent[]>([]);
 
+  const { data, error } = useSWR("/api/events", fetcher);
+
   useEffect(() => {
-    const events = async () => {
-      if (session?.user) {
-        const resultEvents = await fetch("/api/events");
-        const dataEvents = await resultEvents.json();
-        setEvents(dataEvents.items);
-      }
-    };
-    events();
-  }, [session]);
+    if (data) {
+      setEvents(data.items);
+    }
+  }, [data]);
 
   const midnight = new Date();
   midnight.setHours(24, 0, 0, 0);
