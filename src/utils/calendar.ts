@@ -1,33 +1,32 @@
-import { PrismaClient } from "@prisma/client";
+import { calendar, auth } from "@googleapis/calendar";
+import { getAccessTokenFromEmail } from "./auth";
 
-const prisma = new PrismaClient();
-
-const getAccessTokenFromEmail = async (email: string) => {
-  const account = await prisma.user.findUnique({
-    where: { email: email },
-    select: {
-      accounts: {
-        select: {
-          access_token: true,
-        },
-      },
-    },
+export const getCalendarApi = ({ access_token }: { access_token: string }) => {
+  const authCalendarGoogle = new auth.OAuth2({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   });
-  return account?.accounts[0]?.access_token || undefined;
+  authCalendarGoogle.setCredentials({
+    access_token: access_token,
+  });
+
+  const calendarApi = calendar({
+    version: "v3",
+    auth: authCalendarGoogle,
+  });
+
+  return calendarApi;
 };
 
 export const getCalendarList = async ({ email }: { email: string }) => {
   const access_token = await getAccessTokenFromEmail(email);
 
-  // fetch data from google apis
-  const result = await fetch(
-    `https://www.googleapis.com/calendar/v3/users/me/calendarList?key=${process.env.GOOGLE_API_KEY}`,
-    {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-      method: "GET",
-    }
-  );
-  return await result.json();
+  if (!access_token) {
+    return undefined;
+  }
+
+  const result = await getCalendarApi({
+    access_token,
+  }).calendarList.list();
+  return result.data.items;
 };
