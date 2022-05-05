@@ -13,13 +13,13 @@
 **minimal newtab:** without ads or "Paid" features or tracking.
 Built with Next.js and Tailwind.
 
-## My Goals
+## Features
 
-I need this new tab to be:
-
-- showcase current time ✅
+- showcase current local time and week ✅
 - minimal no signups or any other stuff or pro thing ✅
-- not use battery if possible
-- showcase my next calendar events
+- showcase your next calendar events for the current day ✅
+
+To-do List:
+
+- reduce battery usage and re-renders when not in focus
 - provide keyboard shortcuts
-- provide links to the right tool at the right time based on your custom routine
