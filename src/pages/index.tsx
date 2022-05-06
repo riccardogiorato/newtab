@@ -1,7 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { signIn, useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import { Button } from "../components/Button";
 import { GoogleSignIn } from "../components/GoogleSignIn";
 import { getEventColor } from "../utils/calendarClient";
 
@@ -93,9 +95,9 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   midnight.setHours(24, 0, 0, 0);
 
   return (
-    <div className="overflow-hidden w-screen h-screen">
+    <div className="overflow-hidden w-screen min-h-screen">
       <div
-        className="w-screen h-screen text-white bg-cover bg-black"
+        className="w-screen min-h-screen text-white bg-cover bg-black"
         style={{
           backgroundImage: "url(/img/beach.webp)",
         }}
@@ -115,10 +117,9 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               {/* <p className="text-2xl leading-relaxed mt-8 font-semibold">
                 Now you should be {whatCurrentThing}.
               </p> */}
-              <span className="mt-4 h-12 flex items-center justify-center">
+              <span className="mt-4 flex items-center justify-center">
                 {session ? (
                   <>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       alt=""
                       src={session?.user?.image || ""}
@@ -129,13 +130,27 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                     </p>
                   </>
                 ) : status === "unauthenticated" ? (
-                  <GoogleSignIn
-                    onClick={() =>
-                      signIn("google", {
-                        callbackUrl: "http://localhost:3000/",
-                      })
-                    }
-                  />
+                  <div className="flex flex-col">
+                    <GoogleSignIn
+                      onClick={() =>
+                        signIn("google", {
+                          callbackUrl: "http://localhost:3000/",
+                        })
+                      }
+                    />
+
+                    <div className="p-4 mt-8 rounded bg-white text-gray-800">
+                      <p className="pb-4 max-w-xs">
+                        Login with Google to visualize all your Google Calendar
+                        Events for today, like this!
+                      </p>
+                      <img
+                        src="/events.jpg"
+                        alt="Events"
+                        className="max-w-xs mx-auto"
+                      />
+                    </div>
+                  </div>
                 ) : (
                   <div className="opacity-0">.</div>
                 )}
@@ -186,11 +201,21 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             </div>
           </div>
         </div>
-        {session && status === "authenticated" && (
-          <button className="fixed bottom-2 w-full" onClick={() => signOut()}>
-            Sign Out
-          </button>
-        )}
+        <div className="mx-auto fixed bottom-2 w-full flex flex-col items-center">
+          {session && status === "authenticated" && (
+            <Button className="" onClick={() => signOut()}>
+              <span className="p-2">Sign out</span>
+            </Button>
+          )}
+          <a
+            href="https://github.com/riccardogiorato/newtab"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline mt-2"
+          >
+            Source Code on Github
+          </a>
+        </div>
       </div>
     </div>
   );

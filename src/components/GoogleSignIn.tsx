@@ -1,3 +1,5 @@
+import { Button } from "./Button";
+
 interface GoogleSignInProps {
   onClick: () => void;
 }
@@ -7,13 +9,12 @@ export const GoogleSignIn: React.FC<GoogleSignInProps> = ({
   ...props
 }) => {
   return (
-    <button
+    <Button
       onClick={onClick}
       {...props}
       style={{
         width: "240px",
       }}
-      className="mx-auto rounded-xl justify-center items-center bg-white flex font-medium text-slate-700 hover:text-slate-800 drop-shadow-md hover:drop-shadow-xl transition"
     >
       <span className="flex justify-center items-center ">
         <svg
@@ -48,6 +49,6 @@ export const GoogleSignIn: React.FC<GoogleSignInProps> = ({
         </svg>
         <span className="ml-2.5">Sign in with Google</span>
       </span>
-    </button>
+    </Button>
   );
 };
