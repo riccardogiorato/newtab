@@ -1,11 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { getSession } from "next-auth/react";
-import { PrismaClient } from "@prisma/client";
 import { getCalendarApi, getCalendarList } from "../../../utils/calendar";
 import { getAccessTokenFromEmail } from "../../../utils/auth";
-
-const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
