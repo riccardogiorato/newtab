@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { signIn, useSession, signOut } from "next-auth/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Button } from "../components/Button";
@@ -131,14 +132,6 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                   </>
                 ) : status === "unauthenticated" ? (
                   <div className="flex flex-col">
-                    <GoogleSignIn
-                      onClick={() =>
-                        signIn("google", {
-                          callbackUrl: "http://localhost:3000/",
-                        })
-                      }
-                    />
-
                     <div className="p-4 mt-8 rounded bg-white text-gray-800">
                       <p className="pb-4 max-w-xs">
                         Login with Google to visualize all your Google Calendar
@@ -201,12 +194,17 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             </div>
           </div>
         </div>
-        <div className="mx-auto fixed bottom-2 w-full flex flex-col items-center">
+        <div className="absolute right-4 top-4">
           {session && status === "authenticated" && (
             <Button className="" onClick={() => signOut()}>
               <span className="p-2">Sign out</span>
             </Button>
           )}
+          {status === "unauthenticated" && (
+            <GoogleSignIn onClick={() => signIn("google")} />
+          )}
+        </div>
+        <div className="mx-auto fixed bottom-2 w-full flex flex-col items-center">
           <a
             href="https://github.com/riccardogiorato/newtab"
             target="_blank"
@@ -215,6 +213,9 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           >
             Source Code on Github
           </a>
+          <Link href="/privacy">
+            <a className="underline mt-2">Privacy Policy</a>
+          </Link>
         </div>
       </div>
     </div>
