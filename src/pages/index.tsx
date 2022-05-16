@@ -96,15 +96,35 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   midnight.setHours(24, 0, 0, 0);
 
   return (
-    <div className="overflow-hidden w-screen min-h-screen">
-      <div
-        className="w-screen min-h-screen text-white bg-cover bg-black"
-        style={{
-          backgroundImage: "url(/img/beach.webp)",
-        }}
-      >
-        <div className="container mx-auto">
-          <div className="flex items-center h-screen">
+    <div
+      className="overflow-hidden w-full min-h-screen text-white bg-cover bg-black"
+      style={{
+        backgroundImage: "url(/img/beach.webp)",
+      }}
+    >
+      <div className="w-full">
+        <div className="flex flex-row justify-end">
+          <div className="flex flex-row items-center p-4">
+            {session?.user?.image && (
+              <img
+                alt=""
+                src={session?.user?.image || ""}
+                className="h-12 w-12 rounded mr-4"
+              />
+            )}
+            {session && status === "authenticated" && (
+              <Button className="" onClick={() => signOut()}>
+                <span className="p-2">Sign out</span>
+              </Button>
+            )}
+
+            {status === "unauthenticated" && (
+              <GoogleSignIn onClick={() => signIn("google")} />
+            )}
+          </div>
+        </div>
+        <div className="container mx-auto min-h-[80vh] flex items-center justify-center">
+          <div className="flex items-center">
             <div className="text-center self-center mx-auto">
               <p className="text-3xl opacity-50 leading-tight text-shadow-layered">
                 {week}
@@ -119,18 +139,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 Now you should be {whatCurrentThing}.
               </p> */}
               <span className="mt-4 flex items-center justify-center">
-                {session ? (
-                  <>
-                    <img
-                      alt=""
-                      src={session?.user?.image || ""}
-                      className="h-12 w-12 rounded mr-4"
-                    />
-                    <p className="">
-                      Signed in as {session?.user?.email} <br />
-                    </p>
-                  </>
-                ) : status === "unauthenticated" ? (
+                {status === "unauthenticated" ? (
                   <div className="flex flex-col">
                     <div className="p-4 mt-8 rounded bg-white text-gray-800">
                       <p className="pb-4 max-w-xs">
@@ -153,9 +162,10 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                   <ul className="mt-4">
                     {events
                       .filter(
-                        (event) =>
+                        (event, indexEvent) =>
                           new Date(event.start.dateTime) < midnight &&
-                          new Date(event.start.dateTime) > new Date()
+                          new Date(event.start.dateTime) > new Date() &&
+                          indexEvent < 5
                       )
                       .map((event: GoogleEvent) => (
                         <li
@@ -193,29 +203,6 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               )}
             </div>
           </div>
-        </div>
-        <div className="absolute right-4 top-4">
-          {session && status === "authenticated" && (
-            <Button className="" onClick={() => signOut()}>
-              <span className="p-2">Sign out</span>
-            </Button>
-          )}
-          {status === "unauthenticated" && (
-            <GoogleSignIn onClick={() => signIn("google")} />
-          )}
-        </div>
-        <div className="mx-auto fixed bottom-2 w-full flex flex-col items-center">
-          <a
-            href="https://github.com/riccardogiorato/newtab"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline mt-2"
-          >
-            Source Code on Github
-          </a>
-          <Link href="/privacy">
-            <a className="underline mt-2">Privacy Policy</a>
-          </Link>
         </div>
       </div>
     </div>
