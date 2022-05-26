@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import { JWT } from "next-auth/jwt";
 const googleScopes = [
   "openid",
   "https://www.googleapis.com/auth/calendar.readonly",

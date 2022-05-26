@@ -12,7 +12,8 @@
     "lint": "next lint",
     "studio": "yarn prisma studio",
     "migrate": "yarn prisma migrate dev",
-    "generate": "yarn prisma generate"
+    "generate": "yarn prisma generate",
+    "setup": "vercel pull"
   },
   "dependencies": {
     "@googleapis/calendar": "^1.0.2",
@@ -28,11 +29,11 @@
   "devDependencies": {
     "@types/node": "17.0.23",
     "@types/react": "17.0.43",
-    "concurrently": "^7.1.0",
-    "eslint": "8.12.0",
-    "eslint-config-next": "12.1.4",
+    "concurrently": "^7.2.1",
+    "eslint": "8.16.0",
+    "eslint-config-next": "12.1.6",
+    "postcss": "^8.4.14",
     "prisma": "^3.12.0",
-    "typescript": "4.6.3",
-    "postcss": "^8.0.9"
+    "typescript": "4.7.2"
   }
 }
