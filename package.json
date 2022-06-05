@@ -13,7 +13,7 @@
     "studio": "yarn prisma studio",
     "migrate": "yarn prisma migrate dev",
     "generate": "yarn prisma generate",
-    "setup": "vercel pull"
+    "setup": "yarn vercel env pull"
   },
   "dependencies": {
     "@googleapis/calendar": "^1.0.2",
@@ -34,6 +34,7 @@
     "eslint-config-next": "12.1.6",
     "postcss": "^8.4.14",
     "prisma": "^3.12.0",
-    "typescript": "4.7.2"
+    "typescript": "4.7.2",
+    "vercel": "^25.0.0"
   }
 }

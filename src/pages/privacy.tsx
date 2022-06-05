@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
+import { LinkElement } from "../components/LinkElement";
 
 const Privacy: NextPage = () => {
   return (
@@ -27,9 +28,18 @@ const Privacy: NextPage = () => {
         
         `}
         </style>
-        <h1>Privacy Policy</h1>
+
+        <span className="fixed left-0 top-0 bg-white w-full text-center">
+          <Link href="/">
+            <LinkElement>
+              <h2>go back to the home</h2>
+            </LinkElement>
+          </Link>
+        </span>
+
+        <h1 className="pt-10">Privacy Policy</h1>
         <p>
-          <em>Effective date: 2021-01-01</em>
+          <em>Effective date: 2022-06-05</em>
         </p>
         <h2>Introduction</h2>
         <p>
@@ -440,22 +450,22 @@ const Privacy: NextPage = () => {
         <p>
           If you have any questions about this Privacy Policy, please contact us
           by email:
-          <a href="mailto:" target="_blank" rel="nofollow noreferrer">
-            @
-          </a>
+          <LinkElement href="mailto:" target="_blank" rel="nofollow noreferrer">
+            info@riccardogiorato.com
+          </LinkElement>
         </p>
       </main>
       <div className="mx-auto bottom-2 w-full flex flex-col items-center p-4">
-        <a
+        <LinkElement
           href="https://github.com/riccardogiorato/newtab"
           target="_blank"
           rel="noopener noreferrer"
           className="underline mt-2"
         >
           Source Code on Github
-        </a>
+        </LinkElement>
         <Link href="/privacy">
-          <a className="underline mt-2">Privacy Policy</a>
+          <LinkElement className="underline mt-2">Privacy Policy</LinkElement>
         </Link>
       </div>
     </>
