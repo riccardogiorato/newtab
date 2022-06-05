@@ -30,7 +30,7 @@ const Privacy: NextPage = () => {
         </style>
 
         <span className="fixed left-0 top-0 bg-white w-full text-center">
-          <Link href="/">
+          <Link href="/" passHref>
             <LinkElement>
               <h2>go back to the home</h2>
             </LinkElement>
@@ -456,15 +456,10 @@ const Privacy: NextPage = () => {
         </p>
       </main>
       <div className="mx-auto bottom-2 w-full flex flex-col items-center p-4">
-        <LinkElement
-          href="https://github.com/riccardogiorato/newtab"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline mt-2"
-        >
-          Source Code on Github
-        </LinkElement>
-        <Link href="/privacy">
+        <Link href="/" passHref>
+          <LinkElement className="underline mt-2">homepage</LinkElement>
+        </Link>
+        <Link href="/privacy" passHref>
           <LinkElement className="underline mt-2">Privacy Policy</LinkElement>
         </Link>
       </div>

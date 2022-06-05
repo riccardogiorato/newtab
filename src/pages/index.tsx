@@ -64,9 +64,28 @@ const Home = () => {
                 <p className="max-w-xs text-center">
                   Privacy Policy is available here:
                   <br />
-                  <Link href="/privacy">
+                  <Link href="/privacy" passHref>
                     <LinkElement>privacy policy</LinkElement>
                   </Link>
+                </p>
+              </div>
+            </div>
+          </span>
+
+          <span className="mt-4 flex items-center justify-center">
+            <div className="flex flex-col">
+              <div className="p-4 mt-8 rounded bg-white text-gray-800">
+                <p className="max-w-xs text-center">
+                  This project is fully open-source:
+                  <br />
+                  <LinkElement
+                    href="https://github.com/riccardogiorato/newtab"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline mt-2"
+                  >
+                    Source Code on Github
+                  </LinkElement>
                 </p>
               </div>
             </div>
